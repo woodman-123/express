@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+	<!-- 程序一启动读取spring配置文件生成context容器，已经在dao.xml配置了注解扫描，已经读取到容器里面了，包@webservice-->
+
+
+	<jaxws:server address="/region">
+		<jaxws:serviceBean>
+			<ref bean="regionServiceImpl" />
+		</jaxws:serviceBean>
+	</jaxws:server>
+
+	<jaxws:server address="/role">
+		<jaxws:serviceBean>
+			<ref bean="roleServiceImpl" />
+		</jaxws:serviceBean>
+	</jaxws:server>
+	
+	<jaxws:server address="/rright">
+		<jaxws:serviceBean>
+			<ref bean="rrightServiceImpl" />
+		</jaxws:serviceBean>
+	</jaxws:server>
+	
+	<jaxws:server address="/staff">
+		<jaxws:serviceBean>
+			<ref bean="staffServiceImpl" />
+		</jaxws:serviceBean>
+	</jaxws:server>
+	
+	<jaxws:server address="/users">
+		<jaxws:serviceBean>
+			<ref bean="usersServiceImpl" />
+		</jaxws:serviceBean>
+	</jaxws:server>
+	
+	
+	<jaxws:server address="/qp">
+		<jaxws:serviceBean>
+			<ref bean="qpServiceImpl" />
+		</jaxws:serviceBean>
+	</jaxws:server>
+	
+	
+	
+	
+	
+
+</beans>

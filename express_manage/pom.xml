@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.heima</groupId>
+		<artifactId>express_parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>express_manage</artifactId>
+	<packaging>pom</packaging>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>com.heima</groupId>
+			<artifactId>express_common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+		
+			<!-- java编译插件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${project.build.sourceEncoding.version}</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+				<!--<path>/</path>
+					<port>8082</port>
+						 同一个tomcat两个不同端口跑不同的项目，模拟每个项目独立开发，tomcat服务器分开 -->
+					
+					<!-- 接下来的是热部署，把项目发布到远程的tomcat里面去1,去tomcat服务器配置用户，2，在这里添加远程的服务器地址，用户和密码 -->
+					<url>http://192.168.43.242:8080/manager/text</url>
+					<username>tomcat</username>
+					<password>tomcat</password>
+				
+				</configuration>
+			</plugin>
+			
+		</plugins>
+		
+	</build>
+
+	<modules>
+		<module>express_manage_model</module>
+		<module>express_manage_dao</module>
+		<module>express_manage_interface</module>
+		<module>express_manage_service</module>
+	
+	</modules>
+	
+</project>

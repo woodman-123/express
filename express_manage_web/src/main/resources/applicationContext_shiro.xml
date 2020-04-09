@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+
+	<bean id="myRealm" class="com.heima.express.manage.web.realm.MyRealm" />
+
+
+	<bean id="securityManage" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property  name="realm" ref="myRealm"/>
+	</bean>
+	
+	<!-- 配置shiro框架过滤器工厂对象 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- 注入安全管理器对象 -->
+		 <!-- Shiro的核心安全接口,这个属性是必须的 -->  
+		<property name="securityManager" ref="securityManage"/>
+		
+		 <!-- 要求登录时的链接(可根据项目的URL进行替换),非必须的属性,默认会自动寻找Web工程根目录下的"/login.html"页面 --> 
+		<property name="loginUrl" value="/"></property>
+		
+		  <!-- anon：它对应的过滤器里面是空的,什么都没做,这里.do和.jsp后面的*表示参数,比方说login.jsp?main这种 -->  
+        <!-- authc：该过滤器下的页面必须验证后才能访问,它是Shiro内置的一个拦截器org.apache.shiro.web.filter.authc.FormAuthenticationFilter -->  
+		<property name="filterChainDefinitions">
+			<value>
+			
+				/static/**=anon
+				/=anon
+				/users/login=anon
+				/**=authc   
+			</value>
+		</property>
+	</bean>
+	
+	
+	
+	
+	
+	
+	
+	
+		<!-- 开启shiro框架注解支持 -->			
+		<bean id="defaultAdvisorAutoProxyCreator" 		
+			class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">	
+				<!-- 必须使用cglib方式为Action对象创建代理对象 -->
+			<property name="proxyTargetClass" value="true"/>	
+		</bean>		
+				
+		<!-- 配置shiro框架提供的切面类，用于创建代理对象 -->		
+		<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor"/>		
+	
+	
+	
+	
+	
+	
+	
+</beans>

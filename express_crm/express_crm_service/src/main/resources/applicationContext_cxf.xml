@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- 程序一启动读取spring配置文件生成context容器，已经在dao.xml配置了注解扫描，已经读取到容器里面了，包括@webservice -->
+	
+	
+	<jaxws:server address="/customer">
+		<jaxws:serviceBean>
+		
+			<ref bean="customerServiceImpl"/>
+		</jaxws:serviceBean>
+	</jaxws:server>
+	
+	
+	
+	
+
+</beans>

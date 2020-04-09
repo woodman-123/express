@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	
+	<!-- 把远程的service配置成bean,让spring远程注入 ,id不写会报错-->
+	<jaxws:client id="crmClient"  address="http://localhost:8084/service/customer"
+	
+	
+					serviceClass="com.heima.express.crm.client.CustomerService"/>
+	
+</beans>

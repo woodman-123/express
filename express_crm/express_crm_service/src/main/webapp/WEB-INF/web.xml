@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <display-name>express_crm_service</display-name>
+ 	
+ 	
+ 	 <!-- webservice 没有表示层，也就没有中央控制器   -->
+  <!-- 程序一启动读取配置文件 -->
+  <!-- needed for ContextLoaderListener -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext_*.xml</param-value>
+	</context-param>
+
+	<!-- Bootstraps the root web application context before servlet initialization -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+  
+  	
+  	<!-- 别太在意为何这样写，用别人的框架要遵循别人的规则 -->	
+	<!-- cxf webservices -->		
+    <servlet>		
+  	<servlet-name>cxf</servlet-name>	
+  	<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>	
+  	</servlet>		
+  	<servlet-mapping>		
+  	<servlet-name>cxf</servlet-name>	
+  	<url-pattern>/service/*</url-pattern>	<!-- 接受其他项目的请求 -->
+  	</servlet-mapping>		
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+</web-app>

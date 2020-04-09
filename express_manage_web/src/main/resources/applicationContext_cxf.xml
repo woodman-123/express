@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	
+	<!-- 把远程的service配置成bean,让spring远程注入 ,id不写会报错-->
+	
+	<!-- 本工程为客户端，根据接口和实现类bean的地址远程注入实现类 -->
+	
+	
+	<!-- 远程crm -->
+	<jaxws:client id="crmClient"  address="http://localhost:8084/service/customer"
+	serviceClass="com.heima.express.crm.client.CustomerService"/>
+	
+	
+	
+	<!-- 远程manage -->
+	<jaxws:client id="regionClient"  address="http://localhost:8082/service/region"
+	serviceClass="com.heima.express.manage.client.RegionService"/>
+	
+	<jaxws:client id="roleClient"  address="http://localhost:8082/service/role"
+	serviceClass="com.heima.express.manage.client.RoleService"/>
+	
+	<jaxws:client id="rrightClient"  address="http://localhost:8082/service/rright"
+	serviceClass="com.heima.express.manage.client.RrightService"/>
+	
+	<jaxws:client id="usersClient"  address="http://localhost:8082/service/users"
+	serviceClass="com.heima.express.manage.client.UsersService"/>
+	
+	<jaxws:client id="staffClient"  address="http://localhost:8082/service/staff"
+	serviceClass="com.heima.express.manage.client.StaffService"/>
+	
+	
+	<jaxws:client id="qpClient"  address="http://localhost:8082/service/qp"
+	serviceClass="com.heima.express.manage.client.QpService"/>
+	
+	<jaxws:client id="messageClient"  address="http://localhost:8086/service/message"
+	serviceClass="com.heima.express.message.client.MsgService"/>
+	
+</beans>

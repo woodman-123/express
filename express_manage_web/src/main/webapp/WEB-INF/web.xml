@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <display-name>express_manage_web</display-name>
+  <welcome-file-list>
+  
+    <welcome-file>/</welcome-file>
+   
+  </welcome-file-list>
+  
+  
+  
+   <!-- 乱码过滤器 -->
+  <filter>											
+		<filter-name>CharacterEncodingFilter</filter-name>									
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>									
+		<init-param>									
+			<param-name>encoding</param-name>								
+			<param-value>utf-8</param-value>								
+		</init-param>									
+	</filter>										
+	<filter-mapping>										
+		<filter-name>CharacterEncodingFilter</filter-name>									
+		<url-pattern>/*</url-pattern>									
+	</filter-mapping>
+  
+  
+  <!-- The front controller of this Spring Web application, responsible for handling all application requests -->
+	<servlet>
+		<servlet-name>springDispatcherServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:applicationContext_*.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!-- Map all requests to the DispatcherServlet for handling -->
+	<servlet-mapping>
+		<servlet-name>springDispatcherServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+  
+    <!-- 释放put，delete，提交方法 -->
+  <filter>			
+		<filter-name>HiddenHttpMethodFilter</filter-name>	
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>	
+	</filter>		
+	<filter-mapping>		
+		<filter-name>HiddenHttpMethodFilter</filter-name>	
+		<url-pattern>/*</url-pattern>	
+	</filter-mapping>	
+  
+  
+  
+ 									
+  	<!-- 配置spring框架提供的用于整合shiro框架的过滤器 -->
+  	<!-- shiro就是通过过滤器在真正执行action之前做验证 shiro提供了一个过滤器
+  	我们要跟spring融合的话，我们的过滤器必须要被spring容器管理，所以spring提供这个过滤器-->													
+	  <filter>													
+	  	<filter-name>shiroFilter</filter-name>												
+	  	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>												
+	  </filter>													
+	  <filter-mapping>													
+	  	<filter-name>shiroFilter</filter-name>												
+	  	<url-pattern>/*</url-pattern>												
+	  </filter-mapping>													
+  
+  
+  
+  
+  
+</web-app>

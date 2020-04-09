@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	
+	<context:annotation-config/>
+	<context:component-scan base-package="com.heima.express.crm"/>
+	
+	
+	<bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/crm?characterEncoding=utf8"/>
+		<property name="username" value="root"/>
+		<property name="password" value="root"/>
+	</bean>
+	
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="druidDataSource"/>
+		<property name="configLocation" value="classpath:mybatis.xml"/>
+		<property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+	</bean>
+	
+	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactory" ref="sqlSessionFactoryBean"/><!-- 这个可以不写，自动匹配 -->
+		<property name="basePackage" value="com.heima.express.crm.mapper"/>
+	</bean>
+	
+	
+	
+	
+	<!-- 把spring提供的切面类配置成bean -->
+	<bean id="dsTranManager"  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="druidDataSource"/>
+	</bean>
+	
+	<!-- 配置这个可以去service里面加transactional注解，就是说明是个事务切入点，但问题是以后每个service都加上这个注解的话就会很费事
+	所以我们不用这个方法，而是用接下来的方法，一锤子卖卖，以后都不用加上这个注解
+	<tx:annotation-driven transaction-manager="dataSourceTransactionManager"/>
+	 -->
+	 
+	 
+	 <!-- 把切面bean配置成一个事务切面 -->
+	 <tx:advice id="dsTranManagerAspect" transaction-manager="dsTranManager">
+	 <!-- 配置增强类型 -->	
+		 <tx:attributes>
+		 	<tx:method name="add*" propagation="REQUIRED"  isolation="DEFAULT"/><!--  isolation="DEFAULT  xml中设置隔离级别，一般不设置保留默认 -->
+		 	<tx:method name="delete*" propagation="REQUIRED"/>
+		 	<tx:method name="upd*" propagation="REQUIRED"/>
+		 	<tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
+		 </tx:attributes>
+	 </tx:advice>
+	 
+	<aop:config>
+		<aop:pointcut expression="execution(* com.heima.express.crm.service.impl.*.*(..))" id="tran_point"/>
+		<!-- 让切面类织入切入点 -->
+		<aop:advisor advice-ref="dsTranManagerAspect" pointcut-ref="tran_point"/>
+	</aop:config>
+	 
+	
+	
+
+</beans>

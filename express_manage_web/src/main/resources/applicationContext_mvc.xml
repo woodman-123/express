@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+	
+	<context:annotation-config/>
+	<context:component-scan base-package="com.heima.express.manage"/>
+	
+	<!-- 相当于配置了影视器和适配器 -->
+	<mvc:annotation-driven/>
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/page/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+
+	<!-- 释放静态资源 -->
+	<mvc:default-servlet-handler/>
+	
+	<!-- 1.system系统数据模块 -->
+	<!-- 创建直接跳转，不用写空的action方法，视图解析器的前后缀仍然有效 -->
+	<mvc:view-controller path="/" view-name="login"/>
+	<mvc:view-controller path="/toindex" view-name="index"/>
+	<mvc:view-controller path="/page/system/touser" view-name="system/users"/>
+	<mvc:view-controller path="/page/system/torole" view-name="system/role"/>		
+	<mvc:view-controller path="/page/system/toright" view-name="system/right"/>		
+	<!-- 页面的跳转地址加上/page/system这个是为了方便拦截器排除拦截，因为页面的跳转不需要拦截 -->
+	<mvc:view-controller path="/page/system/recruit/recruit" view-name="system/recruit"/>	
+	<mvc:view-controller path="/page/system/recruit/list" view-name="system/list"/>	
+	<mvc:view-controller path="/page/system/recruit/interviewer" view-name="system/interviewer"/>	
+	<mvc:view-controller path="/page/system/recruit/register" view-name="system/register"/>	
+	<mvc:view-controller path="/page/system/file/file" view-name="system/file"/>	
+	<mvc:view-controller path="/page/system/salary/standard" view-name="system/standard"/>	
+	<mvc:view-controller path="/page/system/salary/salary" view-name="system/salary"/>	
+	<mvc:view-controller path="/page/system/export/exportexcel" view-name="system/exportexcel"/>
+	<!-- 1.base基础数据模块 -->
+	
+		<mvc:view-controller path="/page/base/toregion" view-name="base/region"/>
+		<mvc:view-controller path="/page/base/tosubarea" view-name="base/subarea"/>	
+		<mvc:view-controller path="/page/base/todecidedzone" view-name="base/decidedzone"/>	
+		<mvc:view-controller path="/page/base/tostaff" view-name="base/staff"/>			
+		<!-- 1.work模块 -->	
+		<mvc:view-controller path="/page/work/torg" view-name="work/rg"/>		
+									
+	 <bean id="multipartResolver"									
+	       class="org.springframework.web.multipart.commons.CommonsMultipartResolver">									
+	       	<property name="defaultEncoding" value="UTF-8"/>
+	       	<!-- 上传的文件最大是多少 -->								
+	       	<property name="maxUploadSize" value="5242880"/>
+	       	<!-- 配置缓冲 <property name="maxInMemorySize" value="1024"/>	 -->							
+	 </bean>									
+										
+	
+	<!-- 使用shiro做验证，把自己手写的拦截器去掉
+	<mvc:interceptors>
+	
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/"/>
+			<mvc:exclude-mapping path="/login"/>
+			<mvc:exclude-mapping path="/static/**"/> 拦截所有把静态资源页拦截了，解放静态资源 
+			<bean class="com.heima.express.manage.web.interceptor.LoginInterceptor"/>
+		</mvc:interceptor>
+		
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/"/>
+			<mvc:exclude-mapping path="/users/login"/>
+			<mvc:exclude-mapping path="/users/logout"/>
+			<mvc:exclude-mapping path="/static/**"/> 拦截所有把静态资源页拦截了，解放静态资源 
+			<mvc:exclude-mapping path="/right/createmenu"/>  左边的折叠菜单也要释放 
+			<mvc:exclude-mapping path="/page/**"/>
+			<mvc:exclude-mapping path="/toindex"/>
+			<bean class="com.heima.express.manage.web.interceptor.AuthorityInterceptor"/>
+		</mvc:interceptor>
+		
+	</mvc:interceptors>
+	 -->
+	
+</beans>
